@@ -1,0 +1,17 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <div class="fadeIn first">
+      <img src="assets/imagens/logo-athon.png" alt="Athon logo" height="90px" />
+    </div>
+    <form>
+      <input type="text" id="email" class="fadeIn second" name="login" [(ngModel)]="login.email" placeholder="Login" />
+      <input type="password" id="senha" class="fadeIn third" name="senha" [(ngModel)]="login.senha" placeholder="Senha" />
+      <input type="submit" class="fadeIn fourth" value="acessar" (click)="logar()"/>
+    </form> 
+    <div id="formFooter" *ngIf="mostrarAlerta">
+      <div class="alert alert-warning" role="alert">
+        {{mensagem.texto}}
+      </div>
+    </div>
+  </div>
+</div>

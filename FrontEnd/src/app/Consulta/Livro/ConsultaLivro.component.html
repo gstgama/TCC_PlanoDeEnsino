@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar1">
+      <app-Menu></app-Menu>
+    </div>
+    <!-- componente da tela -->
+    <div class="col-md-10">
+      <div class="container">
+        <div class="row justify-content-md-center">
+        <!-- FORMULARIO -->
+          <div class="text-center mt-30">
+            <h1>Consultar Livro</h1>
+          </div>
+          <div class="form-group col-12 mt-20">
+            <input [(ngModel)]="filtrar" type="text" class="form-control" placeholder="Buscar">
+          </div>
+          <div class="mt-20">
+            <table class="table table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col"><h5>Ação</h5></th>
+                  <th scope="col"><h5>Nome</h5></th>
+                  <th scope="col"><h5>Editora</h5></th>
+                  <th scope="col"><h5>Ano</h5></th>
+                  </tr>
+              </thead>
+              <tbody *ngIf="livrosFiltrados && livrosFiltrados.length">
+                <tr style="cursor: pointer;" *ngFor="let livroFiltrado of livrosFiltrados | paginate: { itemsPerPage: contadorLivro, currentPage: pagLivro }">
+                  <td><button class="btn btn-primary btn-sm" (click)="abrirDetalhesLivro(livroFiltrado); getAutores()">Carregar Informações</button></td>
+                  <td>{{livroFiltrado.dsLivro}}</td>
+                  <td>{{livroFiltrado.editora}}</td>
+                  <td>{{livroFiltrado.ano}}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr *ngIf="!livrosFiltrados.length">
+                  <td colspan="8" class="text-center">
+                    <h5>Nenhum livro encontrado</h5>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+            <div class="text-right">
+              <pagination-controls (pageChange)="pagLivro = $event"></pagination-controls>
+            </div>
+            <div class="row mt-20">
+              <div class="col-4">
+                <h5>Livro</h5>
+                <input type="text" class="form-control" placeholder="Nome do Livro" [(ngModel)]="livro.dsLivro" name="dsLivro" disabled>
+              </div>
+              <div class="col-2">
+                <h5>Editora</h5>
+                <input type="text" class="form-control" placeholder="Editora do Livro" [(ngModel)]="livro.editora" [ngModelOptions]="{standalone: true}" disabled>
+              </div>
+              <div class="col-1">
+                <h5>Ano</h5>
+                <input type="text" class="form-control" placeholder="AAAA" [(ngModel)]="livro.ano" [ngModelOptions]="{standalone: true}" disabled>
+              </div>
+              <div class="col-5">
+                <h5>Autor</h5>
+                <textarea class="form-control" rows="1" placeholder="Autor do Livro"[(ngModel)]="autorConectado.nome" [ngModelOptions]="{standalone: true}" disabled></textarea>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

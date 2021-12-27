@@ -1,0 +1,188 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar1">
+      <app-Menu></app-Menu>
+    </div>
+    <!-- componente da tela -->
+    <div class="col-md-10">
+      <div class="container">
+        <div class="row justify-content-md-center">
+          <div class="form-group">
+            <div class="text-center mt-30">
+              <h1>Cadastrar Sugestão ao Plano de Ensino</h1>
+            </div>
+            <div class="row mt-10">
+              <h6>Disciplina Selecionada</h6>
+            </div>
+            <div class="row">
+              <div class="col-10">
+                <input type="text" class="form-control form-control-sm" placeholder="Nome da Disciplina" [(ngModel)]="plano.dsDisciplina" name="dsDisciplina" disabled>
+              </div>
+              <div class="col-2">
+                <button class="btn btn-primary btn-sm" (click)="mostrarListaPlano = !mostrarListaPlano">
+                  {{mostrarListaPlano ? 'Mostrar Listagem' : 'Ocultar Listagem'}}
+                </button>
+              </div>
+            </div>
+            <div class="row mt-10">
+              <div class="col-6">
+                <h6>Conectado(s) - Bibliografia Básica</h6>
+              </div>
+              <div class="col-6">
+                <h6>Conectado(s) - Bibliografia Complementar</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <textarea class="form-control form-control-sm" rows="2" placeholder="Livro Conectado na Bibliografia Básica do Plano de Ensino" [(ngModel)]="livroBasico.dsLivro" name="dsLivro" [ngModelOptions]="{standalone: true}" disabled></textarea>
+              </div>
+              <div class="col-6">
+                <textarea class="form-control form-control-sm" rows="2" placeholder="Livro Conectado na Bibliografia Complementar do Plano de Ensino" [(ngModel)]="livroComplementar.dsLivro" name="dsLivro" [ngModelOptions]="{standalone: true}" disabled></textarea>
+              </div>
+            </div>
+            <div class="mt-10" *ngIf="!mostrarListaPlano">
+              <h6>Listagem de Planos de Ensino ({{planos.length}})</h6>
+                <table class="table table-hover">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Ações</th>
+                      <th scope="col">Disciplina</th>
+                      <th scope="col">Ano/Semestre</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let plano of planos | paginate: { itemsPerPage: contadorPlano, currentPage: pagPlano }">
+                      <td>
+                        <button class="btn btn-primary btn-sm" (click)="abrirDetalhesPlano(plano); getLivrosBasico(); getLivrosComplementar()">Selecionar/Editar</button>
+                      </td>
+                      <td>{{plano.dsDisciplina}}</td>
+                      <td>{{plano.anoSemestre}}</td>
+                      <td>{{plano.status}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              <div class="text-right">
+                <pagination-controls (pageChange)="pagPlano = $event"></pagination-controls>
+              </div>
+            </div>
+            <div class="row mt-20">
+              <h6>Buscar Livro</h6>
+            </div>
+            <div class="form-group col-12">
+              <input [(ngModel)]="filtrar" type="text" class="form-control form-control-sm" placeholder="Buscar">
+            </div>
+            <div class="mt-10">
+              <table class="table table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Editora</th>
+                    <th scope="col">Ano</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="livrosFiltrados && livrosFiltrados.length">
+                  <tr style="cursor: pointer;" *ngFor="let livroFiltrado of livrosFiltrados | paginate: { itemsPerPage: contadorLivro, currentPage: pagLivro }">
+                    <td>{{livroFiltrado.dsLivro}}</td>
+                    <td>{{livroFiltrado.editora}}</td>
+                    <td>{{livroFiltrado.ano}}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr *ngIf="!livrosFiltrados.length">
+                    <td colspan="8" class="text-center">
+                      <h4>Nenhum livro encontrado</h4>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+              <div class="text-right">
+                <pagination-controls (pageChange)="pagLivro = $event"></pagination-controls>
+              </div>
+            </div>
+            <div class="row mt-30">
+              <div class="col-12">
+                <h6>Título da Sugestão</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <input type="text" class="form-control form-control-sm" placeholder="Nome da Sugestão" [(ngModel)]="sugestao.dsSugestaoPlanoEnsino" name="dsSugestaoPlanoEnsino">
+              </div>
+            </div>
+            <div class="row mt-20">
+              <div class="col-6">
+                <h6>Inclusão - Bibliografia Básica</h6>
+              </div>
+              <div class="col-6">
+                <h6>Exclusão - Bibliografia Básica</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <textarea class="form-control form-control-sm" rows="2" placeholder="Livro para Inclusão na Bibliografia Básica" [(ngModel)]="sugestao.dsInclusaoBasica" name="dsInclusaoBasica"></textarea>
+              </div>
+              <div class="col-6">
+                <textarea class="form-control form-control-sm" rows="2" placeholder="Livro para Exclusão na Bibliografia Básica" [(ngModel)]="sugestao.dsExclusaoBasica" name="dsExclusaoBasica"></textarea>
+              </div>
+            </div>
+            <div class="row mt-20">
+              <div class="col-6">
+                <h6>Inclusão - Bibliografia Complementar</h6>
+              </div>
+              <div class="col-6">
+                <h6>Exclusão - Bibliografia Complementar</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <textarea class="form-control form-control-sm" rows="2" placeholder="Livro para Inclusão na Bibliografia Complementar" [(ngModel)]="sugestao.dsInclusaoComplementar" name="dsInclusaoComplementar"></textarea>
+              </div>
+              <div class="col-6">
+                <textarea class="form-control form-control-sm" rows="2" placeholder="Livro para Exclusão na Bibliografia Complementar" [(ngModel)]="sugestao.dsExclusaoComplementar" name="dsExclusaoComplementar"></textarea>
+              </div>
+            </div>
+            <div class="row mt-20">
+              <div class="col-2">
+                <button type="button" class="btn btn-dark" onClick="window.location.reload();">Limpar/Recarregar</button>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-success" (click)="saveSugestaoPlano();">Salvar/Atualizar</button>
+              </div>
+              <div class="col-8">
+                <button class="btn btn-primary" (click)="mostrarListaSugestao = !mostrarListaSugestao; getSugestoes()">
+                    {{mostrarListaSugestao ? 'Mostrar Listagem' : 'Ocultar Listagem'}}
+                </button>
+              </div>
+            </div>
+            <div class="mt-30" *ngIf="!mostrarListaSugestao">
+              <h4>Lista de Sugestões ({{sugestoes.length}})</h4>
+              <table class="table table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Ações</th>
+                    <th scope="col">Título da Sugestão</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sugestao of sugestoes | paginate: { itemsPerPage: contadorSugestao, currentPage: pagSugestao }">
+                    <td>
+                      <button class="btn btn-primary btn-sm" (click)="abrirDetalhesSugestao(sugestao)">Selecionar/Editar</button>
+                      &nbsp;
+                      <button class="btn btn-danger btn-sm" (click)="deleteSugestaoPlano(sugestao)">Excluir</button>
+                    </td>
+                    <td>{{sugestao.dsSugestaoPlanoEnsino}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-right">
+                <pagination-controls (pageChange)="pagSugestao = $event"></pagination-controls>
+              </div>
+            </div>
+            <div class="col-12">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

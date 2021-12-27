@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar1">
+      <app-Menu></app-Menu>
+    </div>
+
+    <!-- componente da tela -->
+    <div class="col-md-10">
+      <div class="container">
+        <div class="row justify-content-md-center">
+         
+        <!-- FORMULARIO -->
+
+        <div class="text-center mt-30">
+          <h1>Consultar Usuário</h1>
+        </div>
+        <div class="form-group col-12 mt-20">
+          <input [(ngModel)]="filtrar" type="text" class="form-control" placeholder="Buscar">
+        </div>
+        <div class="mt-20">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col"><h5>Nome</h5></th>
+                <th scope="col"><h5>Login</h5></th>
+                <th scope="col"><h5>Tipo</h5></th>
+                <th scope="col"><h5>Status</h5></th>
+              </tr>
+            </thead>
+            <tbody *ngIf="usuariosFiltrados && usuariosFiltrados.length">
+              <tr style="cursor: pointer;" *ngFor="let usuarioFiltrado of usuariosFiltrados | paginate: { itemsPerPage: contadorUsuario, currentPage: pagUsuario }">
+                <td>{{usuarioFiltrado.nome}}</td>
+                <td>{{usuarioFiltrado.login}}</td>
+                <td>{{usuarioFiltrado.tpUsuario}}</td>
+                <td>{{usuarioFiltrado.status}}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr *ngIf="!usuariosFiltrados.length">
+                <td colspan="8" class="text-center">
+                  <h5>Nenhum usuário encontrado</h5>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+          <div class="text-right">
+            <pagination-controls (pageChange)="pagUsuario = $event"></pagination-controls>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

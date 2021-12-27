@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar1">
+      <app-Menu></app-Menu>
+    </div>
+    <!-- componente da tela -->
+    <div class="col-md-10">
+      <div class="container">
+        <div class="row justify-content-md-center">
+        <!-- FORMULARIO -->
+            <div class="text-center mt-30">
+              <h1>Consultar Curso</h1>
+            </div>
+            <div class="form-group col-12 mt-20">
+              <input [(ngModel)]="filtrar" type="text" class="form-control" placeholder="Buscar">
+            </div>
+            <div class="mt-20">
+              <table class="table table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col"><h5>Curso</h5></th>
+                    <th scope="col"><h5>Tipo de Graduação</h5></th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="cursosFiltrados && cursosFiltrados.length">
+                  <tr style="cursor: pointer;" *ngFor="let cursoFiltrado of cursosFiltrados | paginate: { itemsPerPage: contadorCurso, currentPage: pagCurso }">
+                    <td>{{cursoFiltrado.dsCurso}}</td>
+                    <td>{{cursoFiltrado.tpGraduacao}}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr *ngIf="!cursosFiltrados.length">
+                    <td colspan="8" class="text-center">
+                      <h5>Nenhum curso encontrado</h5>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+              <div class="text-right">
+                <pagination-controls (pageChange)="pagCurso = $event"></pagination-controls>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

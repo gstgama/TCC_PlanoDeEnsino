@@ -1,0 +1,133 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar1">
+      <app-Menu></app-Menu>
+    </div>
+    <!-- componente da tela -->
+    <div class="col-md-10">
+      <div class="container">
+        <div class="row justify-content-md-center">
+          <form>
+            <div class="form-group">
+              <div class="text-center mt-30">
+                <h1>Cadastrar Livro</h1>
+              </div>
+              <div class="row mt-10">
+                <div class="col-12">
+                  <h6>Livro</h6>
+                  <input class="form-control form-control-sm" type="text" placeholder="Nome do livro" [(ngModel)]="livro.dsLivro" name="Livro">
+                </div>
+              </div>
+              <div class="row mt-10">
+                <div class="col-12">
+                  <h6>Editora</h6>
+                  <input class="form-control form-control-sm" type="text" placeholder="Editora do livro" [(ngModel)]="livro.editora" name="Editora">
+                </div>
+              </div>
+              <div class="row mt-10">
+                <div class="col-2">
+                  <h6>Ano</h6>
+                  <input class="form-control form-control-sm" type="number" placeholder="Ano de lançamento" [(ngModel)]="livro.ano" name="Ano">
+                </div>
+                <div class="col-10"></div>
+              </div>
+            </div>
+            <div class="row mt-20">
+              <div class="col-2">
+                <button type="button" class="btn btn-dark" onClick="window.location.reload();">Limpar/Recarregar</button>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-success" (click)="saveLivro()">Salvar/Atualizar</button>
+              </div>
+              <div class="col-2">
+                <button class="btn btn-primary" (click)="mostrarListaLivro = !mostrarListaLivro; getLivros()">
+                  {{mostrarListaLivro ? 'Mostrar Listagem' : 'Ocultar Listagem'}}
+                </button>
+              </div>
+            </div>
+            <div class="mt-20" *ngIf="!mostrarListaLivro">
+              <h3>Lista de Livros ({{livros.length}})</h3>
+              <table class="table table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Ações</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Editora</th>
+                    <th scope="col">Ano</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let livro of livros | paginate: { itemsPerPage: contadorLivro, currentPage: pagLivro }">
+                    <td>
+                      <button class="btn btn-primary btn-sm" (click)="abrirDetalhesLivro(livro)">Selecionar/Editar</button>
+                      <button class="ml-5 mt-10 btn btn-danger btn-sm" (click)="deleteLivro(livro)">Excluir</button>
+                    </td>
+                    <td>{{livro.dsLivro}}</td>
+                    <td>{{livro.editora}}</td>
+                    <td>{{livro.ano}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-right">
+                <pagination-controls (pageChange)="pagLivro = $event"></pagination-controls>
+              </div>
+            </div>
+            <div class="text-center mt-30">
+              <h1>Cadastrar Autor</h1>
+            </div>
+            <div class="mt-10">
+              <h6>Autor</h6>
+              <input class="form-control form-control-sm" type="text" placeholder="Nome do autor" [(ngModel)]="autor.nome" name="Autor">
+            </div>
+            <div class="row mt-20">
+              <div class="col-2">
+                <button type="button" class="btn btn-dark" onClick="window.location.reload();">Limpar/Recarregar</button>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-success" (click)="saveAutor()">Salvar/Atualizar</button>
+              </div>
+              <div class="col-md-8">
+                <button class="btn btn-primary" (click)="mostrarListaAutor = !mostrarListaAutor; getAutores()">
+                  {{mostrarListaAutor ? 'Mostrar Listagem' : 'Ocultar Listagem'}}
+                </button>
+              </div>
+            </div>
+            <div class="mt-20" *ngIf="!mostrarListaAutor">
+              <h3>Lista de Autores ({{autores.length}})</h3>
+              <table class="table table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Ações</th>
+                    <th scope="col">Nome</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let autor of autores | paginate: { itemsPerPage: contadorAutor, currentPage: pagAutor }">
+                    <td>
+                      <button class="btn btn-primary btn-sm" (click)="abrirDetalhesAutor(autor)">Selecionar/Editar</button>
+                      <button class="ml-5 btn btn-danger btn-sm" (click)="deleteAutor(autor)">Excluir</button>
+                    </td>
+                    <td>{{autor.nome}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-right">
+                <pagination-controls (pageChange)="pagAutor = $event"></pagination-controls>
+              </div>
+            </div>
+            <div class="row mt-30">
+              <div class="col-1">
+                <button type="button" class="btn btn-primary" (click)="saveLivroAutor()">Conectar</button>
+              </div>
+              <div class="col-1">
+                <button type="button" class="btn btn-danger" (click)="deleteLivroAutor(livro, autor)">Desconectar</button>
+              </div>
+              <div class="col-10"></div>
+            </div>
+            <div class="col-12">&nbsp;</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

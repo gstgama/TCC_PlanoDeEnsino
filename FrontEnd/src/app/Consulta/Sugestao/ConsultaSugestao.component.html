@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar1">
+      <app-Menu></app-Menu>
+    </div>
+    <!-- componente da tela -->
+    <div class="col-md-10">
+      <div class="container">
+        <div class="row justify-content-md-center">
+        <!-- FORMULARIO -->
+          <div class="text-center mt-30">
+            <h1>Consultar Sugestão ao Plano de Ensino</h1>
+          </div>
+          <div class="form-group col-12 mt-20">
+            <input [(ngModel)]="filtrar" type="text" class="form-control" placeholder="Buscar">
+          </div>
+          <div class="mt-20">
+            <table class="table table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col"><h5>Ação</h5></th>
+                  <th scope="col"><h5>Nome da Sugestão</h5></th>
+                  <th scope="col"><h5>Data e Hora de Cadastro da Sugestão</h5></th>
+                  </tr>
+              </thead>
+              <tbody *ngIf="sugestoesFiltradas && sugestoesFiltradas.length">
+                <tr style="cursor: pointer;" *ngFor="let sugestoesFiltrada of sugestoesFiltradas | paginate: { itemsPerPage: contadorSugestao, currentPage: pagSugestao }">
+                  <td><button class="btn btn-primary btn-sm" (click)="abrirDetalhes(sugestoesFiltrada); getPlanos()">Carregar Informações</button></td>
+                  <td>{{sugestoesFiltrada.dsSugestaoPlanoEnsino}}</td>
+                  <td>{{sugestoesFiltrada.dtCadastroSugestao}}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr *ngIf="!sugestoesFiltradas.length">
+                  <td colspan="8" class="text-center">
+                    <h5>Nenhuma sugestão encontrada</h5>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+            <div class="text-right">
+              <pagination-controls (pageChange)="pagSugestao = $event"></pagination-controls>
+            </div>
+            <div class="row mt-20">
+              <div class="col-6">
+                <h5>Sugestão</h5>
+                <input type="text" class="form-control" placeholder="Nome da Sugestão" [(ngModel)]="sugestao.dsSugestaoPlanoEnsino" name="dsSugestaoPlanoEnsino" disabled>
+              </div>
+              <div class="col-6">
+                <h5>Plano de Ensino - Disciplina</h5>
+                <input type="text" class="form-control" placeholder="Nome da Disciplina" [(ngModel)]="plano.dsDisciplina" name="dsDisciplina" disabled>
+              </div>
+            </div>
+            <div class="row mt-10">
+              <div class="col-6">
+                <h5>Inclusão Bibliografia Básica</h5>
+                <textarea class="form-control" rows="3" placeholder="Livro Sugerido para Inclusão na Bibliografia Básica" [(ngModel)]="sugestao.dsInclusaoBasica" [ngModelOptions]="{standalone: true}" disabled></textarea>
+              </div>
+              <div class="col-6">
+                <h5>Exclusão Bibliografia Básica</h5>
+                <textarea class="form-control" rows="3" placeholder="Livro Sugerido para Exclusão na Bibliografia Básica" [(ngModel)]="sugestao.dsInclusaoComplementar" [ngModelOptions]="{standalone: true}" disabled></textarea>
+              </div>
+            </div>
+            <div class="row mt-10">
+              <div class="col-6">
+                <h5>Inclusão Bibliografia Complementar</h5>
+                <textarea class="form-control" rows="3" placeholder="Livro Sugerido para Inclusão na Bibliografia Complementar" [(ngModel)]="sugestao.dsInclusaoComplementar" [ngModelOptions]="{standalone: true}" disabled></textarea>
+              </div>
+              <div class="col-6">
+                <h5>Exclusão Bibliografia Complementar</h5>
+                <textarea class="form-control" rows="3" placeholder="Livro Sugerido para Exclusão na Bibliografia Complementar" [(ngModel)]="sugestao.dsExclusaoComplementar" [ngModelOptions]="{standalone: true}" disabled></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

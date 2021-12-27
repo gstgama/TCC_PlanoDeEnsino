@@ -1,0 +1,72 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar1">
+      <app-Menu></app-Menu>
+    </div>
+    <div class="col-md-10">
+      <div class="container">
+        <div class="row justify-content-md-center">
+          <form>
+            <div class="form-group">
+              <div class="text-center mt-30">
+                <h1>Cadastrar Curso</h1>
+              </div>
+              <div class="mt-10">
+                <h6>Curso</h6>
+                <input class="form-control form-control-sm" type="text" placeholder="Nome do curso"
+                  [(ngModel)]="curso.dsCurso" name="nomeCurso">
+                <h6 class="mt-10">Tipo de Graduação</h6>
+                <input type="radio" name="tipo" [(ngModel)]="curso.tpGraduacao" value="Bacharelado">
+                <label for="Bacharelado">&nbsp;Bacharelado</label>
+                &nbsp;
+                <input type="radio" name="tipo" [(ngModel)]="curso.tpGraduacao" value="Licenciatura">
+                <label for="Licenciatura">&nbsp;Licenciatura</label>
+                &nbsp;
+                <input type="radio" name="tipo" [(ngModel)]="curso.tpGraduacao" value="Técnologo">
+                <label for="Tecnologo">&nbsp;Tecnólogo</label>
+              </div>
+            </div>
+            <div class="row mt-20">
+              <div class="col-md-2">
+                <button type="button" class="btn btn-dark" onClick="window.location.reload();">Limpar/Recarregar</button>
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-success" (click)="saveCurso()">Salvar/Atualizar</button>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-primary" (click)="mostrarListaCurso = !mostrarListaCurso; getCursos()">
+                  {{mostrarListaCurso ? 'Mostrar Listagem' : 'Ocultar Listagem'}}
+                </button>
+              </div>
+            </div>
+            <div class="mt-20" *ngIf="!mostrarListaCurso">
+              <h3>Lista de Cursos ({{cursos.length}})</h3>
+              <table class="table table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Ações</th>
+                    <th scope="col">Curso</th>
+                    <th scope="col">Tipo de Graduação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let curso of cursos | paginate: { itemsPerPage: contadorCurso, currentPage: pagCurso }">
+                    <td>
+                      <button class="btn btn-primary btn-sm" (click)="abrirDetalhesCurso(curso)">Selecionar/Editar</button>
+                      <button class="ml-5 btn btn-danger btn-sm" (click)="deleteCurso(curso)">Excluir</button>
+                    </td>
+                    <td>{{curso.dsCurso}}</td>
+                    <td>{{curso.tpGraduacao}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-right">
+                <pagination-controls (pageChange)="pagCurso = $event"></pagination-controls>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
